@@ -4,3 +4,6 @@ Version Cotrol
 Wireframe
 -https://fixer.io/
 -https://freecurrencyapi.com/#:~:text=The%20100%25%20free%20solution%20for,ranging%20from%201999%20until%20today
+
+Lucid chart
+-https://lucid.app/lucidchart/8fe66f9f-fe54-41e9-9306-ba67b4542afe/edit?view_items=M5vlEA9xdLZE%2CM5vlFwoI2_nf%2CM5vlpAnNhCRA%2CM5vlhDkpklJw%2CM5vlY-BIf9j8%2CM5vlQU.IUbr5%2CM5vl81B.BaLh%2CM5vlXsAUV4iZ%2CM5vlYxMVq0Kt%2CM5vlzyujUNa~%2CM5vl4IswEW5N%2CM5vlnw5X~Wx_%2CM5vlV7HGfx.f&invitationId=inv_78a8221c-32e1-46a3-9685-7546b1f6ca35
