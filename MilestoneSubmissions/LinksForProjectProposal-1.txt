@@ -1,0 +1,6 @@
+Version Cotrol
+-https://github.com/CU-CSCI3308-Spring2024/CurrencyAppProject
+
+Wireframe
+-https://fixer.io/
+-https://freecurrencyapi.com/#:~:text=The%20100%25%20free%20solution%20for,ranging%20from%201999%20until%20today
