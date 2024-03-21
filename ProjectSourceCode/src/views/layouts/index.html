@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currency Converter</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.10/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+<style>
+    /* Custom CSS for spacing between buttons */
+    .button-group button {
+        margin-right: 5px; /* Adjust the spacing to your preference */
+        border-radius: 30px; /* This will create the oval shape */
+        padding-left: 20px; /* Increase padding to make buttons wider */
+        padding-right: 20px; /* Increase padding to make buttons wider */
+    }
+
+    /* If the last button should not have margin to the right */
+    .button-group button:last-child {
+        margin-right: 0;
+    }
+    
+    /* Style for the currency card to match the second image */
+    .currency-card {
+        border-radius: 10px; /* Rounded corners */
+        transition: 0.3s; /* Adds a transition effect when hovering */
+        background: #fff; /* White background */
+        margin-top: 1em; /* Space above the card */
+    }
+
+    .currency-card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); /* Shadow effect on hover */
+    }
+
+    /* Style adjustments for the title and text */
+    .card-title {
+        margin: 0; /* Removes default margin */
+        font-weight: bold; /* Bold font for title */
+        color: #000; /* Black color text */
+        font-size: 1.5rem; /* Size of the card title */
+    }
+
+    .card-text {
+        margin: 0; /* Removes default margin */
+        font-size: 1.2rem; /* Larger text size */
+        color: #555; /* Dark grey color for the smaller text */
+        font-weight: normal; /* Normal font weight for text */
+    }
+
+    .exchange-rate {
+        font-size: 2rem; /* Larger font size for the exchange rate */
+        color: #333; /* Darker text color */
+        margin-top: .5em; /* Space above the exchange rate */
+        font-weight: bold; /* Bold font for exchange rate */
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-6 mx-auto">
+            <!-- Input group with search icon -->
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="fas fa-search"></i>
+                    </span>
+                </div>
+                <input type="text" class="form-control" placeholder="What currency would you like to convert?" aria-label="Currency" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3">
+                <input type="number" class="form-control" placeholder="Enter amount:" aria-label="Amount">
+            </div>
+            <div class="button-group text-center">
+                <button class="btn btn-primary" onclick="convertCurrency()">Convert</button>
+                <button class="btn btn-secondary" onclick="clearFields()">Clear</button>
+            </div>
+            <div class="mt-3">
+                <div class="card currency-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Converted Currency:</h5>
+                        <p class="card-text">Euro (EUR) to U.S Dollar (USD)</p>
+                        <p class="card-text exchange-rate" id="exchangeRate">$1.0940 USD</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../index.js"></script>
+
+</body>
+</html>
