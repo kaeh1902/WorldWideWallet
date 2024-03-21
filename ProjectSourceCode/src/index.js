@@ -10,6 +10,9 @@ function clearFields() {
 }
 
 function convertCurrency() {
+    const apiUrl = 'https://api.currencyapi.com/v3/latest?apikey=cur_live_xzLkdrHYs6YZ7YtF3ZgfEKH98e3yvyi5BLjuJxp0';
+    
+
     // Hardcoded exchange rate for demonstration
     const exchangeRate = 1.0940;
     
