@@ -1,0 +1,11 @@
+TA meeting - March 18th 2024:
+Add user interface and store data based on previous currency results
+Implement Sign in for users 
+(optional) add historical graph chart showcasing trend 
+
+Update small amount of code , multiple pushes 
+Cory will only look at the main branch.
+Generate release notes before every meeting 
+Mini Demo showcasing progress 
+Link all necessary data in read me 
+Make sure repository is public
