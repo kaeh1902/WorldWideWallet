@@ -40,39 +40,149 @@
         font-weight: bold; /* Bold font for exchange rate */
         color: #000; /* Black color text for better readability */
     }
+    .currency-list {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-top: none;
+    z-index: 1000;
+    background: white;
+    display: none; /* Initially hidden */
+}
+
+    .currency-list.visible {
+        display: block; /* Show when user is typing */
+    }
+
+    .currency-list-item {
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .currency-list-item:hover {
+        background-color: #f0f0f0;
+    }
+
 </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-md-6 mx-auto">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">
-                    <i class="fas fa-search"></i>
-                </span>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 mx-auto">               
+                <div class="input-group mb-3">
+                    <input type="text" id="fromCurrencyInput" class="form-control" oninput="filterCurrencies('from')" placeholder="Currency to convert from" aria-label="From currency">
+                    <div id="fromCurrencyList" class="currency-list"></div>
                 </div>
-                <input type="text" class="form-control" placeholder="What currency would you like to convert?" aria-label="Currency" aria-describedby="basic-addon1">
-            </div>
-            <div class="input-group mb-3">
-                <input type="number" class="form-control" placeholder="Enter amount:" aria-label="Amount">
-            </div>
-            <div class="button-group">
-                <button class="btn btn-primary" onclick="convertCurrency()">Convert</button>
-                <button class="btn btn-secondary" onclick="clearFields()">Clear</button>
-            </div>
-            
-            <!-- "Converted Currency" outside of the card -->
-            <h5 class="converted-currency-header">Converted Currency:</h5>
-
-            <!-- Card for the currency conversion result -->
-            <div class="card currency-card">
-                <div class="card-body">
-                    <p class="card-text">Euro (EUR) to U.S Dollar (USD)</p>
-                    <p class="card-text exchange-rate" id="exchangeRate">$1.0940 USD</p>
+                
+                <div class="input-group mb-3">
+                    <input type="text" id="toCurrencyInput" class="form-control" oninput="filterCurrencies('to')" placeholder="Currency to convert to" aria-label="To currency">
+                    <div id="toCurrencyList" class="currency-list"></div>
+                </div>
+    
+                <!-- The new amount input field -->
+                <div class="input-group mb-3">
+                    <input type="number" id="amountInput" class="form-control" placeholder="Enter amount" aria-label="Amount to convert">
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="convertCurrency()">Convert</button>
+                    <button class="btn btn-secondary" onclick="clearFields()">Clear</button>
+                </div>
+                
+                <!-- Conversion result display -->
+                <h5 class="converted-currency-header">Converted Currency:</h5>
+                <div class="card currency-card">
+                    <div class="card-body">
+                        <p class="card-text" id="conversionText">Converted amount will be displayed here</p>
+                        <p class="card-text exchange-rate" id="exchangeRate">-</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+<script>
+const apiKey = 'cur_live_xzLkdrHYs6YZ7YtF3ZgfEKH98e3yvyi5BLjuJxp0';
+// Global list of currencies (you would fill this list with all available currencies)
+var currencies = {
+    'USD': 'United States Dollar',
+    'EUR': 'Euro',
+    // Add all the other currencies here
+};
+
+function filterCurrencies(type) {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById(type === 'from' ? 'fromCurrencyInput' : 'toCurrencyInput');
+    filter = input.value.toUpperCase();
+    div = document.getElementById(type === 'from' ? 'fromCurrencyList' : 'toCurrencyList');
+    div.innerHTML = ''; // Clear previous options
+    if (filter) {
+        for (code in currencies) {
+            // Check if the currency code or name contains the search term
+            if (code.indexOf(filter) > -1 || currencies[code].toUpperCase().indexOf(filter) > -1) {
+                div.innerHTML += `<div class="currency-list-item" onclick="selectCurrency('${type}', '${code}')">${code} - ${currencies[code]}</div>`;
+            }
+        }
+        div.classList.add('visible');
+    } else {
+        div.classList.remove('visible');
+    }
+}
+
+function selectCurrency(type, code) {
+    // Set the input value and hide the suggestion list
+    document.getElementById(type === 'from' ? 'fromCurrencyInput' : 'toCurrencyInput').value = code;
+    document.getElementById(type === 'from' ? 'fromCurrencyList' : 'toCurrencyList').classList.remove('visible');
+}
+function convertCurrency() {
+    // Retrieve the selected currencies from the inputs
+    const fromCurrency = document.getElementById('fromCurrencyInput').value.toUpperCase();
+    const toCurrency = document.getElementById('toCurrencyInput').value.toUpperCase();
+    const amount = document.getElementById('amountInput').value;
+
+    // Construct the API URL with proper currency codes and the amount
+    const url = `https://api.currencyapi.com/v3/latest?apikey=${apiKey}&base_currency=${fromCurrency}`;
+
+    fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.data[toCurrency]) {
+                const rate = data.data[toCurrency].value;
+                const convertedAmount = rate * amount;
+                document.getElementById('exchangeRate').textContent = `${amount} ${fromCurrency} is equal to ${convertedAmount.toFixed(6)} ${toCurrency}`;
+                document.getElementById('conversionText').textContent = `${fromCurrency} to ${toCurrency}`;
+            } else {
+                document.getElementById('exchangeRate').textContent = 'Currency code not found';
+                document.getElementById('conversionText').textContent = 'Conversion error';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('exchangeRate').textContent = 'Error fetching exchange rate';
+            document.getElementById('conversionText').textContent = 'Conversion error';
+        });
+}
+
+
+
+function clearFields() {
+    document.getElementById('currencyCodeInput').value = '';
+    document.getElementById('amountInput').value = '';
+    document.getElementById('exchangeRate').textContent = '-';
+    document.getElementById('conversionText').textContent = 'Euro (EUR) to U.S Dollar (USD)';
+}
+
+
+
+</script>
+
+</body>
+</html>
