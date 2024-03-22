@@ -1,0 +1,54 @@
+.button-group button {
+    border-radius: 20px; /* Oval shape */
+    padding: 10px 20px; /* Padding for larger buttons */
+}
+
+.button-group {
+    text-align: center; /* Center the buttons */
+    margin-bottom: 1em; /* Space below the buttons */
+}
+
+.converted-currency-header {
+    font-size: 1.25rem; /* Larger font size for the header */
+    font-weight: bold; /* Bold font */
+    margin-bottom: 0.5em; /* Space below the header */
+}
+
+.currency-card {
+    border-radius: 10px; /* Rounded corners */
+    background: #fff; /* White background */
+}
+
+.currency-card p {
+    margin-bottom: 0; /* Remove margin at the bottom of paragraphs */
+}
+
+.exchange-rate {
+    font-size: 2rem; /* Larger font size for the exchange rate */
+    font-weight: bold; /* Bold font for exchange rate */
+    color: #000; /* Black color text for better readability */
+}
+.currency-list {
+position: absolute;
+width: 100%;
+max-height: 200px;
+overflow-y: auto;
+border: 1px solid #ddd;
+border-top: none;
+z-index: 1000;
+background: white;
+display: none; /* Initially hidden */
+}
+
+.currency-list.visible {
+    display: block; /* Show when user is typing */
+}
+
+.currency-list-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.currency-list-item:hover {
+    background-color: #f0f0f0;
+}

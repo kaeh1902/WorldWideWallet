@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currency Converter</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.10/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../resources/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-md-6 mx-auto">               
+                <div class="input-group mb-3">
+                    <input type="text" id="fromCurrencyInput" class="form-control" oninput="filterCurrencies('from')" placeholder="Currency to convert from" aria-label="From currency">
+                    <div id="fromCurrencyList" class="currency-list"></div>
+                </div>
+                
+                <div class="input-group mb-3">
+                    <input type="text" id="toCurrencyInput" class="form-control" oninput="filterCurrencies('to')" placeholder="Currency to convert to" aria-label="To currency">
+                    <div id="toCurrencyList" class="currency-list"></div>
+                </div>
+    
+                <!-- The new amount input field -->
+                <div class="input-group mb-3">
+                    <input type="number" id="amountInput" class="form-control" placeholder="Enter amount" aria-label="Amount to convert">
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="convertCurrency()">Convert</button>
+                    <button class="btn btn-secondary" onclick="clearFields()">Clear</button>
+                </div>
+                
+                <!-- Conversion result display -->
+                <h5 class="converted-currency-header">Converted Currency:</h5>
+                <div class="card currency-card">
+                    <div class="card-body">
+                        <p class="card-text" id="conversionText">Converted amount will be displayed here</p>
+                        <p class="card-text exchange-rate" id="exchangeRate">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="../../index.js"></script>
+</body>
+</html>
