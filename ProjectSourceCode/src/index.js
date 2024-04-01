@@ -1,3 +1,14 @@
+const express = require('express'); // To build an application server or API
+const app = express();
+const handlebars = require('express-handlebars');
+const Handlebars = require('handlebars');
+const path = require('path');
+const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
+const bodyParser = require('body-parser');
+const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
+const bcrypt = require('bcrypt'); //  To hash passwords
+const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part C.
+
 function clearFields() {
     // Clear the input fields
     document.querySelector("input[type='text']").value = '';
@@ -9,7 +20,7 @@ function clearFields() {
     document.getElementById('exchangeRate').textContent = '---';
 }
 
-const apiKey = process.env.API_KEY;
+const apiKey = 'cur_live_xzLkdrHYs6YZ7YtF3ZgfEKH98e3yvyi5BLjuJxp0';
 // Global list of currencies (you would fill this list with all available currencies)
 var currencies = {
     'USD': 'United States Dollar',
@@ -270,19 +281,6 @@ function clearFields() {
 
 //-------------------------------------------------------------------------------------------------
 
-const express = require('express'); // To build an application server or API
-const app = express();
-const handlebars = require('express-handlebars');
-const Handlebars = require('handlebars');
-const path = require('path');
-const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
-const bodyParser = require('body-parser');
-const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
-const bcrypt = require('bcrypt'); //  To hash passwords
-const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part C.
-
-
-
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
 const hbs = handlebars.create({
   extname: 'hbs',
@@ -337,67 +335,66 @@ app.use(
 );
 
 
-app.get('/', (req, res) => {
-    res.redirect('/login');
-  });
-
-app.get('/login', (req, res) => {
-    res.render('pages/login');
+app.get('/', (req, res) => { // code to redirect to login poage 
+  res.redirect('/login');
 });
 
-app.get('/register', (req, res) => {
-    res.render('pages/register');
+app.get('/login', (req, res) => { // code to render  login page 
+  res.render('pages/login');
+});
+
+app.get('/register', (req, res) => { // code to render registyer page 
+  res.render('pages/register');
 });
 
 
-app.post('/register', async (req, res) => {
+app.post('/register', async (req, res) => {  // using bycrypt and post to submit username and password to database 
   try {
     const { username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-    
-    await db.none('INSERT INTO users(username, password) VALUES($1, $2)', [username, hashedPassword]);
+    const hashedPassword = await bcrypt.hash(password, 10); // by crypt hashes the password to make it more secure within the database 
+  
+    await db.none('INSERT INTO users(username, password) VALUES($1, $2)', [username, hashedPassword]); // SQL query to insert username and passsword into database
     res.redirect('/login');
-
-  } 
-  catch (error) {
+  } catch (error) {
     console.error('Error registering user:', error);
-    res.redirect('/register');
+    // Consider sending a more informative error message to the client for debugging.
+    res.render('pages/register', { message: 'Registration failed: ' + error.message });
   }
 });
 
 app.post('/login', async (req, res) => {
-  try {
+try {
 
-    const user = await db.oneOrNone('SELECT * FROM users WHERE username = $1', req.body.username);
-    
-    if (!user) {
-      res.redirect('/register');
-      return;
-    }
-    
-    const match = await bcrypt.compare(req.body.password, user.password);
-    
-    if (match) {
-      req.session.user = user;
-      req.session.save();
-      
-      res.redirect('/discover');
-    } else {
-      res.render('pages/login', { message: 'Incorrect username or password.' });
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    res.render('pages/login', { message: 'An error occurred. Please try again.' });
+  const user = await db.oneOrNone('SELECT * FROM users WHERE username = $1', req.body.username); // compare login credetials to those ones that exist
+  
+  if (!user) { // if user dose not match any exising users redirect to register page so they can register 
+    res.redirect('/register');
+    return;
   }
+  
+  const match = await bcrypt.compare(req.body.password, user.password);
+  
+  if (match) {
+    req.session.user = user; // if the credentials are correct , the session is saved and the user gets redirected to the main page 
+    req.session.save();
+    
+    res.redirect('/currency_converter')
+  } else {
+    res.render('pages/login', { message: 'Incorrect username or password.' }); // if username matches but credentils are incorrect message will display 
+  }
+} catch (error) {
+  console.error('Error:', error);
+  res.render('pages/login', { message: 'An error occurred. Please try again.' });
+}
 });
 
 // Authentication Middleware.
 const auth = (req, res, next) => {
-  if (!req.session.user) {
-    // Default to login page.
-    return res.redirect('/login');
-  }
-  next();
+if (!req.session.user) {
+  // Default to login page.
+  return res.redirect('/login');
+}
+next();
 };
 
 // Authentication Required
@@ -406,7 +403,7 @@ app.use(auth);
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
       if (err) {
-        console.error('Error destroying session:', err);
+        console.error('Error destroying session:', err); // destroy current session and exit our of the login page 
         return res.redirect('/'); 
       }
       res.clearCookie('connect.sid');
