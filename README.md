@@ -7,7 +7,7 @@ WorldWideWallet is an essential tool for accurate currency conversions. The appl
 Our application delivers a comprehensive financial tool that meets the needs of our users by focusing on occurrence and user-friendly design. Users are able to view their recent searches, view charts, and convert from one currency to another seamlessly. Our hope is to provide people with an elevated way to manage and view currencies around the world.
 
 ## Contributors 
-Chloé Wolff De grivel perrigny, Kate Ehrnstrom, Daniel Folino, Carter Sammis, Yuliia Piguliak, Ethan Schrauf
+Chloé Wolff de Grivel Perrigny, Kate Ehrnstrom, Daniel Folino, Carter Sammis, Yuliia Piguliak, Ethan Schrauf
 
 ## Technology Stack 
 * Node.js
