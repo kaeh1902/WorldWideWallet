@@ -9,7 +9,7 @@ function clearFields() {
     document.getElementById('exchangeRate').textContent = '---';
 }
 
-const apiKey = 'cur_live_xzLkdrHYs6YZ7YtF3ZgfEKH98e3yvyi5BLjuJxp0';
+const apiKey = process.env.API_KEY;
 // Global list of currencies (you would fill this list with all available currencies)
 var currencies = {
     'USD': 'United States Dollar',
