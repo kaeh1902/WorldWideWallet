@@ -349,6 +349,9 @@ app.get('/register', (req, res) => {
     res.render('pages/register');
 });
 
+app.get('/profile', (req, res) => {
+  res.render('pages/profile');
+});
 
 app.post('/register', async (req, res) => {
   try {
@@ -381,7 +384,7 @@ app.post('/login', async (req, res) => {
       req.session.user = user;
       req.session.save();
       
-      res.redirect('/discover');
+      res.redirect('/profile');
     } else {
       res.render('pages/login', { message: 'Incorrect username or password.' });
     }
