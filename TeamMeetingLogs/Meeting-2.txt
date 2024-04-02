@@ -1,0 +1,6 @@
+TA meeting - April 1st 2024:
+
+During the meeting all members said what they worked on during the past weeek and what they plan on doing for the upcoming week. 
+Some of the feedbacks from Cory were to commit and merge frequently even if the changes are small in order to avoid conflics. Doing so will also properly fill out the relase notes. 
+Cory also provide a website to facilitate with the database diagram.
+Lastly problems with the external API used in the prohect were also mentioned, so that will be the primary focus during office hours for the next week. 
