@@ -348,6 +348,9 @@ app.get('/register', (req, res) => { // code to render registyer page
   res.render('pages/register');
 });
 
+app.get('/profile', (req, res) => {
+  res.render('pages/profile');
+});
 
 app.post('/register', async (req, res) => {  // using bycrypt and post to submit username and password to database 
   try {
@@ -379,6 +382,9 @@ try {
     req.session.user = user; // if the credentials are correct , the session is saved and the user gets redirected to the main page 
     req.session.save();
     
+    if (match) {
+      req.session.user = user;
+      req.session.save();
     res.redirect('/currency_converter')
   } else {
     res.render('pages/login', { message: 'Incorrect username or password.' }); // if username matches but credentils are incorrect message will display 
