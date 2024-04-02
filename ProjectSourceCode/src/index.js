@@ -83,6 +83,15 @@ app.get('/profile', (req, res) => {
   res.render('pages/profile');
 });
 
+app.get('/home', (req,res)=>{
+  res.render('pages/home');
+});
+
+app.get('/currency_converter', (req,res)=>{
+  res.render('pages/currency_converter');
+});
+
+
 app.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -149,14 +158,6 @@ axios({
   console.error('Error', error)
   res.status(500).json({error: 'Error'});
 });
-});
-
-app.get('/home', (req,res)=>{
-  res.render('pages/home');
-});
-
-app.get('/currency_converter', (req,res)=>{
-  res.render('pages/currency_converter');
 });
 
 // Authentication Middleware.
