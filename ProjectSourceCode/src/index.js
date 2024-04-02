@@ -348,19 +348,29 @@ app.get('/register', (req, res) => { // code to render registyer page
 });
 
 
-app.post('/register', async (req, res) => {  // using bycrypt and post to submit username and password to database 
+app.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10); // by crypt hashes the password to make it more secure within the database 
-  
-    await db.none('INSERT INTO users(username, password) VALUES($1, $2)', [username, hashedPassword]); // SQL query to insert username and passsword into database
-    res.redirect('/login');
+
+    // Check if username already exists
+    const userExists = await db.oneOrNone('SELECT * FROM users WHERE username = $1', username);
+    
+    if (userExists) {
+      // Username already exists, return an error message to the user
+      res.render('pages/register', { message: 'User already exists. Please choose a different username.' });
+      return; // Prevent further execution to avoid attempting to insert the duplicate username
+    }
+
+    // If the username doesn't exist, continue with hashing the password and inserting the new user
+    const hashedPassword = await bcrypt.hash(password, 10); // Hash the password for security
+    await db.none('INSERT INTO users(username, password) VALUES($1, $2)', [username, hashedPassword]);
+    res.redirect('/login'); // Redirect the user to the login page upon successful registration
   } catch (error) {
     console.error('Error registering user:', error);
-    // Consider sending a more informative error message to the client for debugging.
-    res.render('pages/register', { message: 'Registration failed: ' + error.message });
+    res.render('pages/register', { message: 'Registration failed: ' + error.message }); // Show a generic error message for other errors
   }
 });
+
 
 app.post('/login', async (req, res) => {
 try {
