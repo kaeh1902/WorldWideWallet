@@ -141,7 +141,7 @@ try {
 }
 });
 
-app.get('/api/convert_curency', (req,res)=>{
+app.get('/api/convert_currency', (req,res)=>{
 const apiKey = process.env.API_KEY; 
 axios({
   method: 'get',
