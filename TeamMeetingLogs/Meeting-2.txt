@@ -1,4 +1,4 @@
-TA meeting April 1st
+TA meeting - April 1st 2024:
 
 During the meeting all members said what they worked on during the past weeek and what they plan on doing for the upcoming week. 
 Some of the feedbacks from Cory were to commit and merge frequently even if the changes are small in order to avoid conflics. Doing so will also properly fill out the relase notes. 
