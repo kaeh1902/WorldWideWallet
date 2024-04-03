@@ -75,7 +75,7 @@ app.get('/login', (req, res) => { // code to render  login page
   res.render('pages/login');
 });
 
-app.get('/register', (req, res) => { // code to render registyer page 
+app.get('/register', (req, res) => { // code to render register page 
   res.render('pages/register');
 });
 
@@ -102,6 +102,25 @@ app.post('/register', async (req, res) => {
     res.render('pages/register', { message: 'Registration failed: ' + error.message }); // Show a generic error message for other errors
   }
 });
+
+app.get('/passwordReset' , async (req, res) => {
+  res.render('pages/passwordReset');
+})
+
+app.post('/passwordReset', async (req, res) => {
+  const { email } = req.body;
+  // Assume emailRegex is your validation logic
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (emailRegex.test(email)) {
+    // Email is in the correct format, proceed with logic and then render success page
+    res.render('pages/success', { email }); // Pass the email as part of the rendering context
+  } else {
+    // Email is not in the correct format
+    res.render('pages/passwordReset', { errorMessage: 'Email is not in valid format. It should be name@provider.com' });
+  }
+});
+
 
 
 app.post('/login', async (req, res) => {
