@@ -1,15 +1,101 @@
-{{> message}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .container {
+    width: 100%;
+    max-width: 320px;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  .header-img {
+    width: 80%; /* or your desired width */
+    margin: 0 auto 30px; /* Adjust margin as needed */
+  }
+  h2 {
+    margin-bottom: 30px;
+    color: #333;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  .btn-primary {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+  a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
+  .footer {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    background: #f4f7f6;
+  }
+</style>
+</head>
+<body>
+
+{{> head }}
+
 <div class="container">
+  <img src="../resources/img/Logo.svg.jpg" class="header-img"> // image not working dont know why?
+  <h2>Welcome to WorldWideWallet</h2>
   <form action="/login" method="POST">
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input type="text" class="form-control" id="username" name="username" required>
+    <div class="form-group">
+      <input type="text" class="form-control" id="username" name="username" placeholder="username or email" required>
     </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" name="password" required>
+    <div class="form-group">
+      <input type="password" class="form-control" id="password" name="password" placeholder="password" required>
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
   </form>
-  <p class="mt-3">Don't have an account? <a href="/register">Register</a></p>
+  <p class="mt-3">Don't have an account? <a href="/register">Register here</a></p>
+  <p class="mt-3">Forgot password? <a href="">Click here to reset password</a></p>
 </div>
+
+{{> footer }}
+
+</body>
+</html>
