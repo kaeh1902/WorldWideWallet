@@ -29,4 +29,22 @@ describe('Server!', () => {
 
 // *********************** TODO: WRITE 2 UNIT TESTCASES **************************
 
+describe('/POST register', () => {
+  it('it should register a new user and redirect to login', (done) => {
+    let newUser = {
+      username: 'testuser',
+      password: 'password123'
+    };
+    chai.request(server)
+        .post('/register')
+        .send(newUser)
+        .end((err, res) => {
+          res.should.have.status(302);
+          res.should.redirectTo(/\/login$/); // This checks if the response is a redirect to the login page.
+          done();
+        });
+  });
+});
+
+
 // ********************************************************************************

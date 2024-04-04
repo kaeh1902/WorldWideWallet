@@ -92,6 +92,7 @@ app.post('/register', async (req, res) => {
     
     if (userExists) {
       // Username already exists, return an error message to the user
+      console.log(userExists);
       res.render('pages/register', { message: 'User already exists. Please choose a different username.' });
       return; // Prevent further execution to avoid attempting to insert the duplicate username
     }
