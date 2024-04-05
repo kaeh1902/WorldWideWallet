@@ -30,21 +30,38 @@ describe('Server!', () => {
 // *********************** TODO: WRITE 2 UNIT TESTCASES **************************
 
 describe('/POST register', () => {
-  it('it should register a new user and redirect to login', (done) => {
+  it('it should register to database and redirect to login', (done) => {
     let newUser = {
-      username: 'testuser',
+      username: 'testuser0123',
       password: 'password123'
     };
     chai.request(server)
         .post('/register')
         .send(newUser)
         .end((err, res) => {
-          res.should.have.status(302);
-          res.should.redirectTo(/\/login$/); // This checks if the response is a redirect to the login page.
+          res.should.have.status(200);
+          res.should.redirectTo(/\/login$/); // check for redirect to login 
           done();
         });
   });
 });
+
+describe('Access Protected Page', () => {
+  it('should redirect to the login page if not logged in', (done) => {
+    chai.request(server)
+      .get('/profile') // '/profile' is a protected route requiring authentication.
+      .redirects(0) // Prevent automatic redirection following to inspect the initial response.
+      .end((err, res) => {
+        if (err) done(err);
+        // Expect a redirect status code.
+        res.should.have.status(302);
+        // Check that the Location header points to the login page.
+        res.headers.location.should.include('/login');
+        done();
+      });
+  });
+});
+
 
 
 // ********************************************************************************
