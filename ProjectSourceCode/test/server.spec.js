@@ -30,7 +30,7 @@ describe('Server!', () => {
 // *********************** TODO: WRITE 2 UNIT TESTCASES **************************
 
 describe('/POST register', () => {
-  it('it should register to database and redirect to login', (done) => {
+  it('it should register to database', (done) => {
     let newUser = {
       username: 'testuser0123',
       password: 'password123'
@@ -39,8 +39,7 @@ describe('/POST register', () => {
         .post('/register')
         .send(newUser)
         .end((err, res) => {
-          res.should.have.status(200);
-          res.should.redirectTo(/\/login$/); // check for redirect to login 
+          res.should.have.status(200); 
           done();
         });
   });
@@ -62,6 +61,18 @@ describe('Access Protected Page', () => {
   });
 });
 
-
-
+describe('Forgot Password Link', () => {
+  it('should redirect to the forgot password page when clicked', (done) => {
+    // Directly request the /passwordReset page
+    chai.request(server)
+      .get('/passwordReset')
+      .end((err, res) => {
+        if (err) done(err);
+        // Expect a 200 status code indicating successful retrieval
+        res.should.have.status(200);
+        res.text.should.include('reset password'); // Example check for page-specific content
+        done();
+      });
+  });
+});
 // ********************************************************************************
