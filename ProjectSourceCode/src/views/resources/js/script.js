@@ -201,7 +201,7 @@ var currencies = {
 };
 
 function filterCurrencies(type) {
-    var input, filter, ul, li, a, i;
+    var input, filter, div, i;
     input = document.getElementById(type === 'from' ? 'fromCurrencyInput' : 'toCurrencyInput');
     filter = input.value.toUpperCase();
     div = document.getElementById(type === 'from' ? 'fromCurrencyList' : 'toCurrencyList');
@@ -210,7 +210,12 @@ function filterCurrencies(type) {
         for (code in currencies) {
             // Check if the currency code or name contains the search term
             if (code.indexOf(filter) > -1 || currencies[code].toUpperCase().indexOf(filter) > -1) {
-                div.innerHTML += `<div class="currency-list-item" onclick="selectCurrency('${type}', '${code}')">${code} - ${currencies[code]}</div>`;
+                var listItem = document.createElement('div');
+                listItem.className = 'currency-list-item';
+                listItem.textContent = `${code} - ${currencies[code]}`;
+                listItem.setAttribute('data-currency', code);
+                listItem.onclick = function() { selectCurrency(type, this.getAttribute('data-currency')); };
+                div.appendChild(listItem);
             }
         }
         div.classList.add('visible');
@@ -219,18 +224,25 @@ function filterCurrencies(type) {
     }
 }
 
+
 function selectCurrency(type, code) {
     // Set the input value and hide the suggestion list
-    document.getElementById(type === 'from' ? 'fromCurrencyInput' : 'toCurrencyInput').value = code;
-    document.getElementById(type === 'from' ? 'fromCurrencyList' : 'toCurrencyList').classList.remove('visible');
+    var input = document.getElementById(type === 'from' ? 'fromCurrencyInput' : 'toCurrencyInput');
+    input.value = code;
+    var list = document.getElementById(type === 'from' ? 'fromCurrencyList' : 'toCurrencyList');
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+    list.classList.remove('visible');
 }
+
 function convertCurrency() {
     // Retrieve the selected currencies from the inputs
     const fromCurrency = document.getElementById('fromCurrencyInput').value.toUpperCase();
     const toCurrency = document.getElementById('toCurrencyInput').value.toUpperCase();
     const amount = document.getElementById('amountInput').value;
 
-   const url = `/api/convert_currency?base_currency=${fromCurrency}&to_currency=${toCurrency}&amount=${amount}`
+    const url = `/api/convert_currency?base_currency=${fromCurrency}&to_currency=${toCurrency}&amount=${amount}`;
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -259,10 +271,11 @@ function convertCurrency() {
 
 
 function clearFields() {
-    document.getElementById('currencyCodeInput').value = '';
+    document.getElementById('fromCurrencyInput').value = '';
+    document.getElementById('toCurrencyInput').value = '';
     document.getElementById('amountInput').value = '';
     document.getElementById('exchangeRate').textContent = '-';
-    document.getElementById('conversionText').textContent = 'Euro (EUR) to U.S Dollar (USD)';
+    document.getElementById('conversionText').textContent = 'Please enter values to see the converted currency';
 }
 
 
