@@ -1,77 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Converter</title>
-    <!-- Add Bootstrap for styling -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        .container {
-            margin-top: 50px;
-        }
-        .result-box {
-            margin-top: 20px;
-            font-size: 1.5rem;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Currency Converter</h1>
-        <form id="currencyForm">
-            <div class="form-group">
-                <label for="fromCurrency">Currency to convert from:</label>
-                <input type="text" id="fromCurrency" name="fromCurrency" class="form-control" placeholder="e.g., USD">
-            </div>
-            <div class="form-group">
-                <label for="toCurrency">Currency to convert to:</label>
-                <input type="text" id="toCurrency" name="toCurrency" class="form-control" placeholder="e.g., EUR">
-            </div>
-            <div class="form-group">
-                <label for="amount">Enter amount:</label>
-                <input type="number" id="amount" name="amount" class="form-control" placeholder="e.g., 100">
-            </div>
-            <button type="submit" class="btn btn-primary">Convert</button>
-            <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear</button>
-        </form>
-        <div id="result" class="result-box">
-            Converted amount will be displayed here
-        </div>
-    </div>
+<div class="container">
+         <div class="row mt-5">
+             <div class="col-md-6 mx-auto">               
+                 <div class="input-group mb-3">
+                     <input type="text" id="fromCurrencyInput" class="form-control" oninput="filterCurrencies('from')" placeholder="Currency to convert from" aria-label="From currency">
+                     <div id="fromCurrencyList" class="currency-list"></div>
+                 </div>
 
-    <!-- Add jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        // JavaScript for handling the form submission
-        document.getElementById('currencyForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const fromCurrency = document.getElementById('fromCurrency').value;
-            const toCurrency = document.getElementById('toCurrency').value;
-            const amount = document.getElementById('amount').value;
-            const resultDiv = document.getElementById('result');
+                 <div class="input-group mb-3">
+                     <input type="text" id="toCurrencyInput" class="form-control" oninput="filterCurrencies('to')" placeholder="Currency to convert to" aria-label="To currency">
+                     <div id="toCurrencyList" class="currency-list"></div>
+                 </div>
 
-            // This is where you'd integrate with your backend
-            // For example, using fetch to send a request to your Express server
-            fetch(`/convert?from=${fromCurrency}&to=${toCurrency}&amount=${amount}`)
-                .then(response => response.json())
-                .then(data => {
-                    resultDiv.textContent = `Converted amount: ${data.convertedAmount}`;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    resultDiv.textContent = 'Error converting currency.';
-                });
-        });
+                 <!-- The new amount input field -->
+                 <div class="input-group mb-3">
+                     <input type="number" id="amountInput" class="form-control" placeholder="Enter amount" aria-label="Amount to convert">
+                 </div>
 
-        function clearForm() {
-            document.getElementById('fromCurrency').value = '';
-            document.getElementById('toCurrency').value = '';
-            document.getElementById('amount').value = '';
-            document.getElementById('result').textContent = 'Converted amount will be displayed here';
-        }
-    </script>
-</body>
-</html>
+                 <div class="button-group">
+                     <button class="btn btn-primary" onclick="convertCurrency()">Convert</button>
+                     <button class="btn btn-secondary" onclick="clearFields()">Clear</button>
+                 </div>
+
+                 <!-- Conversion result display -->
+                 <h5 class="converted-currency-header">Converted Currency:</h5>
+                 <div class="card currency-card">
+                     <div class="card-body">
+                         <p class="card-text" id="conversionText">Converted amount will be displayed here</p>
+                         <p class="card-text exchange-rate" id="exchangeRate">-</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ <script src="/js/script.js"></script>
