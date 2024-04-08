@@ -29,8 +29,16 @@ describe('Server!', () => {
 
 // *********************** TODO: WRITE 2 UNIT TESTCASES **************************
 
+// Positive Testcase for Register:
+// API: /register
+// Input: {username: 'testuser0123', password: 'password123'}
+// Expect: res.status == 200 and res.body.message == 'Success'
+// Result: This test case should pass and return a status 200 along with a "Success" message.
+// Explanation: The testcase will call the /register API with the following input
+// and expects the API to return a status of 200 along with the "Success" message.
+
 describe('/POST register', () => {
-  it('it should register to database', (done) => {
+  it('Positive: /register. It should register to database', (done) => {
     let newUser = {
       username: 'testuser0123',
       password: 'password123'
@@ -39,11 +47,36 @@ describe('/POST register', () => {
         .post('/register')
         .send(newUser)
         .end((err, res) => {
-          res.should.have.status(200); 
+          res.should.have.status(200);
           done();
         });
   });
 });
+
+// Negative Testcase for Register:
+// API: /register
+// Input: {username: '' password: 'password123'}
+// Expect: res.status == 400 and res.body.message == 'Invalid Input'
+// Result: This test case should pass and return a status 200 along with a "Invalid input" message.
+// Explanation: The testcase will call the /register API with the following invalid input
+// and expects the API to return a status of 400 along with the "Invalid input" message.
+
+describe('/POST register', () => {
+  it('Negative : /register. Checking invalid name', (done) => {
+    let newUser = {
+      username: '',
+      password: 'password123'
+    };
+    chai.request(server)
+        .post('/register')
+        .send(newUser)
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+  });
+});
+
 
 describe('Access Protected Page', () => {
   it('should redirect to the login page if not logged in', (done) => {
@@ -61,6 +94,7 @@ describe('Access Protected Page', () => {
   });
 });
 
+
 describe('Forgot Password Link', () => {
   it('should redirect to the forgot password page when clicked', (done) => {
     // Directly request the /passwordReset page
@@ -75,4 +109,5 @@ describe('Forgot Password Link', () => {
       });
   });
 });
+
 // ********************************************************************************

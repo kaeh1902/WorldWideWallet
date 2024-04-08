@@ -87,6 +87,12 @@ app.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    // Validate username to ensure it's not empty or consisting only of whitespace characters
+    if (!username || username.trim() === '') {
+      res.status(400).json({ message: 'Invalid input: Username cannot be empty or contain only whitespace characters.' });
+      return;
+    }
+    
     // Check if username already exists
     const userExists = await db.oneOrNone('SELECT * FROM users WHERE username = $1', username);
     
