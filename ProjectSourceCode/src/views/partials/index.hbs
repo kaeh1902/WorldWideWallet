@@ -1,33 +1,56 @@
+<!-- Main container for currency converter UI -->
 <div class="container py-5">
+  <!-- Centered row for the form elements -->
   <div class="row justify-content-center">
+    <!-- Column sizing for medium to large screens -->
     <div class="col-md-8 col-lg-6">               
+      
+      <!-- Currency input from which to convert -->
       <div class="mb-4">
+        <!-- Label for the 'from' currency input -->
         <label for="fromCurrencyInput" class="form-label">Currency to convert from</label>
+        <!-- 'From' currency input field -->
         <input type="text" id="fromCurrencyInput" class="form-control" oninput="filterCurrencies('from')" placeholder="Type currency name or code">
+        <!-- Dropdown for 'from' currency list -->
         <div id="fromCurrencyList" class="currency-list list-group"></div>
       </div>
 
+      <!-- Currency input to which to convert -->
       <div class="mb-4">
+        <!-- Label for the 'to' currency input -->
         <label for="toCurrencyInput" class="form-label">Currency to convert to</label>
+        <!-- 'To' currency input field -->
         <input type="text" id="toCurrencyInput" class="form-control" oninput="filterCurrencies('to')" placeholder="Type currency name or code">
+        <!-- Dropdown for 'to' currency list -->
         <div id="toCurrencyList" class="currency-list list-group"></div>
       </div>
 
+      <!-- Amount input field -->
       <div class="mb-4">
+        <!-- Label for the amount input -->
         <label for="amountInput" class="form-label">Enter amount</label>
+        <!-- Input field for the amount to convert -->
         <input type="number" id="amountInput" class="form-control" placeholder="Enter amount">
       </div>
 
+      <!-- Button group for convert and clear actions -->
       <div class="d-grid gap-2 d-md-block text-center">
+        <!-- Convert button triggers currency conversion -->
         <button class="btn btn-primary" onclick="convertCurrency()">Convert</button>
+        <!-- Clear button resets the form fields -->
         <button class="btn btn-outline-secondary" onclick="clearFields()">Clear</button>
       </div>
 
+      <!-- Section displaying the conversion result -->
       <div class="mt-5">
+        <!-- Title for the conversion result section -->
         <h5 class="text-center mb-3">Converted Currency:</h5>
+        <!-- Card element to display the converted currency and exchange rate -->
         <div class="card">
           <div class="card-body">
+            <!-- Paragraph to display the converted amount -->
             <p class="card-text" id="conversionText">Converted amount will be displayed here</p>
+            <!-- Paragraph to display the exchange rate -->
             <p class="card-text exchange-rate" id="exchangeRate">-</p>
           </div>
         </div>
@@ -35,5 +58,6 @@
     </div>
   </div>
 </div>
-<script src="/js/script.js"></script>
 
+<!-- Link to the external JavaScript file that contains the conversion logic -->
+<script src="/js/script.js"></script>
