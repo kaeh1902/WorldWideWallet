@@ -55,7 +55,7 @@ describe('/POST register', () => {
 
 // Negative Testcase for Register:
 // API: /register
-// Input: {username: '' password: 'password123'}
+// Input: {username: ' ' password: 'password123'}
 // Expect: res.status == 400 and res.body.message == 'Invalid Input'
 // Result: This test case should pass and return a status 200 along with a "Invalid input" message.
 // Explanation: The testcase will call the /register API with the following invalid input
@@ -64,7 +64,7 @@ describe('/POST register', () => {
 describe('/POST register', () => {
   it('Negative : /register. Checking invalid name', (done) => {
     let newUser = {
-      username: '',
+      username: ' ',
       password: 'password123'
     };
     chai.request(server)
