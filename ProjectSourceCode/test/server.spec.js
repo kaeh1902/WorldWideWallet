@@ -92,18 +92,20 @@ describe('/POST login', () => {
   });
 });
 
-// Negative test acse for Login
+// Negative test acse for Login (check for correct username but incrorrect password)
 describe('/POST login', () => {
   it('should fail with incorrect credentials', (done) => {
     chai.request(server)
       .post('/login')
-      .send({ username: ' ', password: ' ' })
+      .send({ username: 'testuser0123', password: '2' })
       .end((err, res) => {
         res.should.have.status(401); // expect status 401 as the login attempt will fail
         done();
       });
   });
 });
+
+
 
 describe('Access Protected Page', () => {
   it('should redirect to the login page if not logged in', (done) => {
