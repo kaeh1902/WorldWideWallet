@@ -77,6 +77,33 @@ describe('/POST register', () => {
   });
 });
 
+// Additional unit Testcases 
+
+// Positive test case for Login
+describe('/POST login', () => {
+  it('should login with correct credentials', (done) => {
+    chai.request(server)
+      .post('/login')
+      .send({ username: 'testuser0123', password: 'password123' }) 
+      .end((err, res) => {
+        res.should.have.status(200); // expect a redirect upon successful login
+        done();
+      });
+  });
+});
+
+// Negative test acse for Login
+describe('/POST login', () => {
+  it('should fail with incorrect credentials', (done) => {
+    chai.request(server)
+      .post('/login')
+      .send({ username: ' ', password: ' ' })
+      .end((err, res) => {
+        res.should.have.status(401); // expect status 401 as the login attempt will fail
+        done();
+      });
+  });
+});
 
 describe('Access Protected Page', () => {
   it('should redirect to the login page if not logged in', (done) => {
