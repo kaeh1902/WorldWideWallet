@@ -148,13 +148,13 @@ try {
     if (match) {
       req.session.user = user;
       req.session.save();
-    res.redirect('/home')
+    res.status(200).redirect('/home')
   } else {
-    res.render('pages/login', { message: 'Incorrect username or password.' }); // if username matches but credentils are incorrect message will display 
+    res.status(401).render('pages/login', { message: 'Incorrect username or password.' }); // if username matches but credentils are incorrect message will display 
   }
 } catch (error) {
   console.error('Error:', error);
-  res.render('pages/login', { message: 'An error occurred. Please try again.' });
+  res.status(500).render('pages/login', { message: 'An error occurred. Please try again.' });
 }
 });
 
