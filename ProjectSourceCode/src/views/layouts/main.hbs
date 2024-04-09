@@ -1,4 +1,6 @@
 {{> head}}  <!-- This includes the head partial -->
-{{> nav}}   <!-- This includes the nav partial -->
+{{#if showNavbar}}
+  {{> nav}}  <!-- This includes the nav partial if showNavbar is true -->
+{{/if}}
 {{{body}}}  <!-- The main content of the page will be injected here -->
 {{> footer}} <!-- This includes the footer partial -->
