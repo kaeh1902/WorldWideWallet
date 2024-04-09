@@ -75,11 +75,11 @@ app.get('/', (req, res) => { // code to redirect to login poage
 });
 
 app.get('/login', (req, res) => { // code to render  login page 
-  res.render('pages/login');
+  res.render('pages/login', { showNavbar: false });
 });
 
 app.get('/register', (req, res) => { // code to render register page 
-  res.render('pages/register');
+  res.render('pages/register', { showNavbar: false });
 });
 
 
@@ -385,7 +385,7 @@ next();
 app.use(auth);
 
 app.get('/profile', (req, res) => {
-  res.render('pages/profile');
+  res.render('pages/profile', { showNavbar: true });
 });
 
 app.get('/home', async (req, res) => {
@@ -399,10 +399,10 @@ app.get('/home', async (req, res) => {
       'SELECT from_currency, to_currency, amount, converted_amount, created_at FROM conversions WHERE user_id = $1 ORDER BY created_at DESC',
       userId
     );
-    res.render('pages/home', { searchHistory });
+    res.render('pages/home', { searchHistory, showNavbar: true });
   } catch (error) {
     console.error('Error fetching search history:', error);
-    res.render('pages/home', { searchHistory: [], error: 'Error fetching your search history' });
+    res.render('pages/home', { searchHistory: [], error: 'Error fetching your search history', showNavbar: true });
   }
 });
 
@@ -433,7 +433,7 @@ app.post('/convert_currency', async (req, res) => {
 
 
 app.get('/currency_converter', (req,res)=>{
-  res.render('pages/currency_converter');
+  res.render('pages/currency_converter', { showNavbar: true });
 });
 
 
@@ -444,7 +444,7 @@ app.get('/logout', (req, res) => {
         return res.redirect('/'); 
       }
       res.clearCookie('connect.sid');
-      res.render('pages/logout')
+      res.render('pages/logout', { showNavbar: false })
     });
   });
   
