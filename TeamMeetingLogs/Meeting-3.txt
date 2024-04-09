@@ -1,0 +1,6 @@
+TA meeting - April 8th 2024:
+
+All members said what they worked on during the past weeek and what they plan on doing for the upcoming week. 
+Some of the feedbacks from Cory were: 
+- Move the converter dropdown code from front-end to back-end
+- Remember to close the issue in the project once it's done
