@@ -137,7 +137,6 @@ app.post('/login', async (req, res) => {
 try {
 
   const user = await db.oneOrNone('SELECT * FROM users WHERE username = $1', req.body.username); // compare login credetials to those ones that exist
-  console.log(user);
 
   if (!user) { // if user dose not match any exising users redirect to register page so they can register 
     res.redirect('/register');
