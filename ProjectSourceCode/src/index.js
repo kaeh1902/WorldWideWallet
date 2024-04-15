@@ -82,7 +82,6 @@ app.get('/register', (req, res) => { // code to render register page
   res.render('pages/register', { showNavbar: false });
 });
 
-
 app.post('/register', async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -345,6 +344,7 @@ var currencies = {
   'ZMW': 'Zambian Kwacha',
   'ZWL': 'Zimbabwean Dollar'
 };
+
 
 app.get('/api/convert_currency', (req,res)=>{
 const apiKey = process.env.API_KEY; 
