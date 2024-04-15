@@ -372,6 +372,55 @@ axios({
 });
 });
 
+app.get('/api/historical_rates', async (req, res) => {
+  try {
+      const fromCurrency = 'USD';
+      const toCurrencies = ['USD', 'EUR'];
+      const today = new Date();
+      const yearToday = today.getFullYear();
+      const fourYearsAgoStart = new Date(yearToday - 4, 0, 1);
+      const historicalData = await db.any(`select
+        from_currency,
+        to_currency,
+        rate,
+        created_at
+        from conversions;`,
+        [fourYearsAgoStart.toISOString().split('T')[0], toCurrencies]);
+
+/*
+      const responses = await Promise.all(toCurrencies.map(currency =>
+        
+         
+        axios.get(`https://api.currencyapi.com/v3/historical`, {
+            params: {
+
+              
+              apikey: process.env.CHART_API_KEY,
+              date: lastYear,
+              base_currency: fromCurrency,
+              currencies: currency
+            
+            }
+          })
+           ));
+          
+     
+
+      historicalData = responses.map(response => ({
+          currency: response.config.params.to_currency,
+          data: response.data.data
+        
+      }));
+      */
+
+      res.json(historicalData);
+  } catch (error) {
+      console.error('Error fetching historical rates:', error);
+      res.status(500).json({ error: 'Failed to fetch historical rates' });
+  }
+});
+
+
 // Authentication Middleware.
 const auth = (req, res, next) => {
 if (!req.session.user) {
@@ -402,7 +451,15 @@ app.get('/home', async (req, res) => {
     const searchHistory = await db.any(
       'SELECT from_currency, to_currency, amount, converted_amount, created_at FROM conversions WHERE user_id = $1 ORDER BY created_at DESC',
       userId
+
     );
+
+    const timezone = 'MT';
+    searcHistory = searchHistory.map(item=> {
+      item.created_at = new Date(item.created_at).toLocaleString('en-US', {timeZone: 'America/Denver'});
+      return item;
+    });
+
     res.render('pages/home', { searchHistory, showNavbar: true });
   } catch (error) {
     console.error('Error fetching search history:', error);
@@ -451,19 +508,23 @@ app.get('/news', (req, res) => {
       method: 'get',
       url: 'https://newsapi.org/v2/everything',
       params: {
-          q : 'currency',
-          languages: 'en',
+          q : 'currency exchange',
+          language: 'en',
           apiKey : api_Key,
       }
   })
-  .then(response => {
-      console.log(response.data);
-      // Combining `showNavbar` and `articles` into a single object for the template
-      res.render('pages/news', {
-          showNavbar: true,
-          articles: response.data.articles
-      });
-  })
+.then(response => {
+    console.log(response.data);
+    res.render('pages/news', {
+        showNavbar: true,
+        articles: response.data.articles.map(article => ({
+            title: article.title,
+            description: article.description,
+            url: article.url,
+            image: article.urlToImage
+        }))
+    });
+})
   .catch(error => {
       console.error('Error', error);
       // Sending a JSON response in case of error

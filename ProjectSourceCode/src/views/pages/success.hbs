@@ -1,4 +1,33 @@
-<div class="container">
-  <h1>Password Reset Requested</h1>
-  <p>A password reset link has been sent to: <strong>{{email}}</strong></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Password Reset Requested</title>
+<!-- Include Bootstrap CSS from CDN -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light d-flex flex-column">
+
+<!-- Include header partial -->
+{{> head }}
+
+<!-- Main content -->
+<div class="container flex-grow-1 d-flex align-items-center justify-content-center">
+  <div class="w-100 text-center">
+    <img src="/img/Logo.jpg" alt="Logo" class="mb-4 img-fluid d-block mx-auto">
+    <h1>Password Reset Requested</h1>
+    <p>A password reset link has been sent to: <strong>{{email}}</strong></p>
+    <p class="mt-3 text-center"><a href="/login" class="text-primary">Back to Login</a></p>
+  </div>
 </div>
+
+<!-- Include footer partial -->
+{{> footer }}
+
+<!-- Include Bootstrap JS and its dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.9.5/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

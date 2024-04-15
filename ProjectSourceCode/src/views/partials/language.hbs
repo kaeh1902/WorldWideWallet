@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Translation using LibreTranslate</title>
+</head>
+<body>
+    <h2>Translate Text</h2>
+    <form id="translationForm">
+        <div>
+            <label for="sourceLanguage">From:</label>
+            <select id="sourceLanguage">
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <!-- Add more languages as needed -->
+            </select>
+        </div>
+        <div>
+            <label for="targetLanguage">To:</label>
+            <select id="targetLanguage">
+                <option value="es">Spanish</option>
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <!-- Add more languages as needed -->
+            </select>
+        </div>
+        <div>
+            <label for="textToTranslate">Text:</label>
+            <input type="text" id="textToTranslate" required>
+        </div>
+        <button type="submit">Translate</button>
+    </form>
+
+    <h3>Translated Text:</h3>
+    <p id="translatedText"></p>
+
+    <script src="translationScript.js"></script>
+</body>
+</html>

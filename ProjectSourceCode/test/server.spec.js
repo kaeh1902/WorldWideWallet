@@ -138,4 +138,18 @@ describe('Forgot Password Link', () => {
   });
 });
 
+describe('POST /passwordReset', () => {
+  it('should initiate password reset with valid email', (done) => {
+    const userData = { email: 'validemail@example.com' };
+    chai.request(server)
+      .post('/passwordReset')
+      .send(userData)
+      .end((err, res) => {
+        res.should.have.status(200);
+        done();
+      });
+  });
+});
+
+
 // ********************************************************************************
