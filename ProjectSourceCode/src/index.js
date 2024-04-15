@@ -437,6 +437,10 @@ app.get('/profile', (req, res) => {
   res.render('pages/profile', { showNavbar: true });
 });
 
+app.get('/profileEditor', (req, res) => {
+  res.render('pages/profileEditor', { showNavbar: true});
+});
+
 app.get('/home', async (req, res) => {
   if (!req.session.user) {
     return res.redirect('/login');

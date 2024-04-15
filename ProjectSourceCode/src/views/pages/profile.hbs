@@ -1,12 +1,11 @@
 <div class="container">
 <form action="/profile" method="POST">
-<div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3">
             <h3>Settings</h3>
             <div class="d-grid gap-2">
                 <button class="btn btn-outline-dark" type="button" width="25" height="100" > Profile </button>
-                <button class="btn btn-outline-dark" type="button">Acount settings</button>
+                <button onclick="location.href='/profileEditor'" class="btn btn-outline-dark">Account Settings</button>
                 </div>
             </div>
         <div class="col-md-5">
@@ -16,28 +15,52 @@
                 <div class="col d-flex justify-content-center">
                     <img class="rounded-circle mt-5" src="/img/Daffy_Duck.svg.jpg" width="200" height="200">
                 </div>
-                <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Name</label><input type="text" class="form-control" name="firstName" placeholder="first name" value=""></div>
-                    <div class="col-md-6"><label class="labels">Last name</label><input type="text" class="form-control" name="lastName" value="" placeholder="Last name"></div>
-                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" name="email" placeholder="Email" value=""></div>
-
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="form-control" name="phoneNumber" placeholder="Enter phone number" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" name="adress1" placeholder="Enter address line 1" value=""></div>
-                    <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" name="address2" placeholder="Enter address line 2" value=""></div>
-                    <div class="col-md-12"><label class="labels">Zip code</label><input type="text" class="form-control" name="zipcode" placeholder="Enter zip code" value=""></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" name="country" placeholder="country" value=""></div>
-                    <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" value=""  name="regionState" placeholder="state/region"></div>
-                </div>
-                <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
             </div>
         </div>
+<div class="center">
+  <div class="col-lg-8">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Name</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">Daffy Duck</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Email</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">daffyduck@gmail.com</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Phone</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">(097) 234-5678</p>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-sm-3">
+            <p class="mb-0">Address</p>
+          </div>
+          <div class="col-sm-9">
+            <p class="text-muted mb-0">Looney Tune Land</p>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 </div>
 </div>
-</form>
  </div>
+</div>
