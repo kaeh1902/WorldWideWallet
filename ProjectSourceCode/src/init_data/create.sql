@@ -1,11 +1,15 @@
 DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY NOT NULL,
-    name VARCHAR(100),
-    username VARCHAR(100) NOT NULL UNIQUE, -- Adding UNIQUE constraint here
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    username VARCHAR(100) NOT NULL UNIQUE, -- Keeping the UNIQUE constraint
     email VARCHAR(100),
-    password CHAR(60) NOT NULL -- Assuming password hashes, CHAR(60) is appropriate for bcrypt
+    phone_number VARCHAR(15), -- Assuming phone numbers will be at most 15 characters
+    address TEXT, -- Using TEXT to allow for longer addresses
+    password CHAR(60) NOT NULL -- CHAR(60) is still appropriate for bcrypt hashes
 );
+
 
 DROP TABLE IF EXISTS conversions CASCADE;
 CREATE TABLE IF NOT EXISTS conversions (

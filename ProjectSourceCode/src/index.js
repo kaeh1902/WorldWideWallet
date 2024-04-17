@@ -433,12 +433,78 @@ next();
 // Authentication Required
 app.use(auth);
 
-app.get('/profile', (req, res) => {
-  res.render('pages/profile', { showNavbar: true });
+app.get('/profile', auth, async (req, res) => {
+  try {
+    const username = req.session.user.username;
+    const userProfile = await db.oneOrNone('SELECT * FROM users WHERE username = $1', username);
+
+    if (userProfile) {
+      // If the user has a profile, pass it to the template.
+      res.render('pages/profile', { user: userProfile });
+    } else {
+      // If the user doesn't have a profile, pass default information.
+      res.render('pages/profile', { 
+        user: {
+          name: 'Your Name',
+          email: 'youremail@example.com',
+          phone_number: '(Your Phone Number)',
+          address: 'Your Address'
+        }
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.render('pages/profile', {
+      errorMessage: 'Error fetching your profile'
+    });
+  }
 });
 
 app.get('/profileEditor', (req, res) => {
   res.render('pages/profileEditor', { showNavbar: true});
+});
+
+app.post('/profileEditor', auth, async (req, res) => {
+  // Extract the profile information from the form submission
+  const { firstName, lastName, email, phoneNumber, address } = req.body;
+
+  // Retrieve the logged-in user's username or user_id from the session
+  const username = req.session.user.username; // or user_id if you're using IDs
+
+  // Validation (optional): Check if all fields are present
+  if (!firstName || !lastName || !email || !phoneNumber || !address) {
+    // If any fields are missing, render the profile editor with an error message
+    return res.render('pages/profileEditor', {
+      showNavbar: true,
+      errorMessage: 'All fields are required.',
+      // You can also pass the current values back to the form
+      user: { firstName, lastName, email, phoneNumber, address }
+    });
+  }
+
+  try {
+    // Update the user's profile in the database
+    await db.none(`
+      UPDATE users SET
+        first_name = $1,
+        last_name = $2,
+        email = $3,
+        phone_number = $4,
+        address = $5
+      WHERE username = $6
+    `, [firstName, lastName, email, phoneNumber, address, username]);
+
+    // If the update is successful, redirect to the profile page
+    res.redirect('/profile');
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    // Render the profile editor with an error message
+    res.render('pages/profileEditor', {
+      showNavbar: true,
+      errorMessage: 'Failed to update profile.',
+      user: { firstName, lastName, email, phoneNumber, address }
+    });
+  }
 });
 
 app.get('/home', async (req, res) => {
