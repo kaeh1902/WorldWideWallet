@@ -38,10 +38,11 @@ SESSION_SECRET="super duper secret!"
 API_KEY="<your currency converter API key>"
 ```
 ### 4. Run website
-* Use 
+* Run  
 ```bash
 docker compose up 
 ```
+in your terminal 
 * The website should now be running at [http://localhost:3000/](http://localhost:3000/)
 
 ## How to Run Tests
