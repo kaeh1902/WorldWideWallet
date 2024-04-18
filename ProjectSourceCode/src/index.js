@@ -393,9 +393,8 @@ app.get('/api/historical_rates', async (req, res) => {
         to_currency,
         rate,
         created_at
-        from conversions;`,
-        [fourYearsAgoStart.toISOString().split('T')[0], toCurrencies]);
-
+        from conversions;`
+      );
 /*
       const responses = await Promise.all(toCurrencies.map(currency =>
         
@@ -439,7 +438,7 @@ if (!req.session.user) {
 next();
 };
 
-// Authentication Required
+// Auth Required
 app.use(auth);
 
 app.get('/profile', auth, async (req, res) => {
@@ -449,10 +448,10 @@ app.get('/profile', auth, async (req, res) => {
 
     if (userProfile) {
       // If the user has a profile, pass it to the template.
-      res.render('pages/profile', { user: userProfile });
+      res.render('pages/profile', { user: userProfile , showNavbar: true });
     } else {
       // If the user doesn't have a profile, pass default information.
-      res.render('pages/profile', { 
+      res.render('pages/profile', { showNavbar: true , 
         user: {
           name: 'Your Name',
           email: 'youremail@example.com',
@@ -465,12 +464,12 @@ app.get('/profile', auth, async (req, res) => {
     console.error('Error fetching user profile:', error);
     res.render('pages/profile', {
       errorMessage: 'Error fetching your profile'
-    });
+    , showNavbar: true });
   }
 });
 
 app.get('/profileEditor', (req, res) => {
-  res.render('pages/profileEditor', { showNavbar: true});
+  res.render('pages/profileEditor', { showNavbar: true });
 });
 
 app.post('/profileEditor', auth, async (req, res) => {
