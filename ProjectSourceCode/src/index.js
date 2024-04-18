@@ -11,6 +11,12 @@ const axios = require('axios'); // To make HTTP requests from our server. We'll 
 const { get } = require('http');
 
 //-------------------------------------------------------------------------------------------------
+
+Handlebars.registerHelper('concat', function() {
+  var args = Array.prototype.slice.call(arguments, 0, -1);
+  return args.join('');
+});
+
 // change nodeamon to node in package.json 
 
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
