@@ -11,6 +11,7 @@ const axios = require('axios'); // To make HTTP requests from our server. We'll 
 const { get } = require('http');
 
 //-------------------------------------------------------------------------------------------------
+// change nodeamon to node in package.json 
 
 // create `ExpressHandlebars` instance and configure the layouts and partials dir.
 const hbs = handlebars.create({
@@ -28,7 +29,15 @@ const dbConfig = {
   password: process.env.POSTGRES_PASSWORD, // the password of the user account
 };
 
-const db = pgp(dbConfig);
+const proddbConfig = {
+  host: process.env.host, // the database server
+  port: 5432, // the database port
+  database: process.env.POSTGRES_DB, // the database name
+  user: process.env.POSTGRES_USER, // the user account to connect with
+  password: process.env.POSTGRES_PASSWORD, // the password of the user account
+};
+
+const db = pgp(dbConfig); // update to dbConfig 
 
 // test your database
 db.connect()
