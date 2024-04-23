@@ -20,33 +20,36 @@
     height: 400px;
   }
 }
-
-@media (max-width: 768px) {
-  .chart-box {
-    flex-basis: 100%; 
-    height: 400px;
-  }
-}
-
 </style>
-<div class="row">
-  {{#each searchHistory}}
-    <div class="col-md-4 mb-3">
-      <div class="card h-100">
-        <div class="card-body">
-          <h5 class="card-title">{{from_currency}} to {{to_currency}}</h5>
-          <p class="card-text">{{amount}} = {{converted_amount}}</p>
-          <p class="card-text"><small class="text-muted">{{created_at}}</small></p>
-          <a href="/currency_converter?from={{from_currency}}&to={{to_currency}}" class="btn btn-primary">Convert Again</a>
+
+
+
+    <!-- .container class provides a responsive fixed width container -->
+    <div class="container mt-4"> 
+      <!-- .row class allows for a group of columns, and the .g-4 class adds spacing between columns -->
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {{#each searchHistory}}
+          <!-- .col class specifies a column and allows it to automatically size itself based on the number of columns in the row -->
+          <div class="col">
+            <!-- .card class defines a Bootstrap card, and .h-100 makes the card height 100% of its parent -->
+            <div class="card h-100">
+              <!-- .card-body is a container for the contents of the card -->
+              <div class="card-body">
+                <!-- Various elements for content and actions within the card -->
+                <h5 class="card-title">{{from_currency}} to {{to_currency}}</h5>
+                <p class="card-text">{{amount}} = {{converted_amount}}</p>
+                <p class="card-text"><small class="text-muted">{{created_at}}</small></p>
+                <a href="/currency_converter?from={{from_currency}}&to={{to_currency}}" class="btn btn-primary">Convert Again</a>
+              </div>
+            </div>
+          </div>
+        {{/each}}
         </div>
-      </div>
-    </div>
-  {{/each}}
-</div>
 <div class="chart-container" id="charts">
 </div>
 {{else}}
-<p class="text-center">User has no conversion history.</p>
+  <!-- Message displayed when there is no conversion history -->
+  <p class="text-center">User has no conversion history.</p>
 {{/if}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
