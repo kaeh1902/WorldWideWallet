@@ -7,7 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100),
     phone_number VARCHAR(15), -- Assuming phone numbers will be at most 15 characters
     address TEXT, -- Using TEXT to allow for longer addresses
-    password CHAR(60) NOT NULL -- CHAR(60) is still appropriate for bcrypt hashes
+    password CHAR(60) NOT NULL, -- CHAR(60) is still appropriate for bcrypt hashes
+    profile_image VARCHAR(128)
 );
 
 

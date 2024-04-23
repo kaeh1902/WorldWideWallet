@@ -9,6 +9,8 @@ const session = require('express-session'); // To set the session object. To sto
 const bcrypt = require('bcrypt'); //  To hash passwords
 const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part C.
 const { get } = require('http');
+const multer  = require('multer');
+const upload = multer({ dest: '/uploads' });
 
 //-------------------------------------------------------------------------------------------------
 
@@ -65,6 +67,7 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
 app.use(express.static(path.join(__dirname, 'views/resources')));
+app.use('/uploads', express.static('/uploads'));
 
 // initialize session variables
 app.use(
@@ -463,7 +466,7 @@ app.get('/profile', auth, async (req, res) => {
           name: 'Your Name',
           email: 'youremail@example.com',
           phone_number: '(Your Phone Number)',
-          address: 'Your Address'
+          address: 'Your Address',
         }
       });
     }
@@ -475,11 +478,34 @@ app.get('/profile', auth, async (req, res) => {
   }
 });
 
-app.get('/profileEditor', (req, res) => {
-  res.render('pages/profileEditor', { showNavbar: true });
+app.get('/profileEditor', async(req, res) => {
+  try {
+    const username = req.session.user.username;
+    const userProfile = await db.oneOrNone('SELECT * FROM users WHERE username = $1', username);
+
+    if (userProfile) {
+      // If the user has a profile, pass it to the template.
+      res.render('pages/profileEditor', { user: userProfile , showNavbar: true });
+    } else {
+      // If the user doesn't have a profile, pass default information.
+      res.render('pages/profileEditor', { showNavbar: true , 
+        user: {
+          name: 'Your Name',
+          email: 'youremail@example.com',
+          phone_number: '(Your Phone Number)',
+          address: 'Your Address',
+        }
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.render('pages/profileEditor', {
+      errorMessage: 'Error fetching your profile'
+    , showNavbar: true });
+  }
 });
 
-app.post('/profileEditor', auth, async (req, res) => {
+app.post('/profileEditor', auth,  upload.single('avatar'), async (req, res) => {
   // Extract the profile information from the form submission
   const { firstName, lastName, email, phoneNumber, address } = req.body;
 
@@ -493,10 +519,10 @@ app.post('/profileEditor', auth, async (req, res) => {
       showNavbar: true,
       errorMessage: 'All fields are required.',
       // You can also pass the current values back to the form
-      user: { firstName, lastName, email, phoneNumber, address }
+      user: { firstName, lastName, email, phoneNumber, address}
     });
   }
-
+  console.log(req.file);
   try {
     // Update the user's profile in the database
     await db.none(`
@@ -505,9 +531,10 @@ app.post('/profileEditor', auth, async (req, res) => {
         last_name = $2,
         email = $3,
         phone_number = $4,
-        address = $5
-      WHERE username = $6
-    `, [firstName, lastName, email, phoneNumber, address, username]);
+        address = $5,
+        profile_image= $6
+      WHERE username = $7
+    `, [firstName, lastName, email, phoneNumber, address, req.file.path, username]);
 
     // If the update is successful, redirect to the profile page
     res.redirect('/profile');
@@ -517,7 +544,7 @@ app.post('/profileEditor', auth, async (req, res) => {
     res.render('pages/profileEditor', {
       showNavbar: true,
       errorMessage: 'Failed to update profile.',
-      user: { firstName, lastName, email, phoneNumber, address }
+      user: { firstName, lastName, email, phoneNumber, address, path}
     });
   }
 });
