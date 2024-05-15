@@ -53,5 +53,5 @@ docker compose up
 in your local terminal, and the test cases should execute
 
 ## Link to Deployed Application 
-*[http://recitation-014-team-02.eastus.cloudapp.azure.com:3000/login](http://recitation-014-team-02.eastus.cloudapp.azure.com:3000/login)
+* This application is currently not deployed 
 
